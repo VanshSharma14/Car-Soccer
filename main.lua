@@ -47,7 +47,7 @@ function love.load()
       ['play'] = function() return PlayState() end,
       ['score'] = function() return ScoreState() end
   }
-  gStateMachine:change('play')
+  gStateMachine:change('title')
 
   love.keyboard.keysPressed = {}
 

@@ -25,7 +25,7 @@ function PlayState:init()
   world:addCollisionClass('base')
 
   --inititates the collider for ball
-  ball = world:newRectangleCollider(self.ball.x, self.ball.y, self.ball.width, self.ball.height)
+  ball = world:newCircleCollider(self.ball.x, self.ball.y, self.ball.width/2)
   ball:setCollisionClass('ball')
   ball:setRestitution(.6)
 
@@ -33,6 +33,11 @@ function PlayState:init()
   redCar = world:newRectangleCollider(self.redCar.x, self.redCar.y, self.redCar.width, self.redCar.height)
   redCar:setCollisionClass('car')
   redCar:setRestitution(.1)
+
+  --initiates blue car
+  blueCar = world:newRectangleCollider(self.blueCar.x, self.blueCar.y, self.blueCar.width, self.blueCar.height)
+  blueCar:setCollisionClass('car')
+  blueCar:setRestitution(.1)
 
 
   -- Makes a collider for the barriers
@@ -44,7 +49,7 @@ function PlayState:init()
   barrl:setCollisionClass('solid')
   barrt:setCollisionClass('solid')
   barrr:setCollisionClass('solid')
-  barrb:setCollisionClass('base')
+  barrb:setCollisionClass('solid')
 
   barrl:setType('static')
   barrt:setType('static')
@@ -69,6 +74,13 @@ function PlayState:update(dt)
 
   if redCar:exit('ball') then
     ball:applyLinearImpulse(0, -200)
+  end
+
+  --update blue car hitbox
+  blueCar.x, blueCar.y = blueCar:getPosition()
+
+  if blueCar:exit('ball') then
+    ball:applyLinearImpulse(0, 200)
   end
 
 

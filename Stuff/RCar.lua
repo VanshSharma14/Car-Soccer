@@ -72,25 +72,28 @@ function RCar:update(dt)
   --Car moves right if 'd' is pressed
   if love.keyboard.isDown('d') then
     --self.dx = MOVEMENT_SPEED * dt
-    redCar:applyLinearImpulse(50, 0)
+    redCar:applyLinearImpulse(100, 0)
   end
 
   --Car moves left if 'a' is pressed
   if love.keyboard.isDown('a') then
     --self.dx = -MOVEMENT_SPEED * dt
-    redCar:applyLinearImpulse(-50, 0)
+    redCar:applyLinearImpulse(-100, 0)
   end
 
   --upwards jump + long press
   if love.keyboard.wasPressed('w') and count == 0 then
     count = 1
-    redCar:applyLinearImpulse(0, -1500)
+    redCar:applyLinearImpulse(0, -3000)
     --self.dy = -300 * dt
   end
   if count == 1 then
+    if redCar.y >= GROUND_RCAR + 3 then
+      count = 0
+    end
     if love.keyboard.isDown('w') then
       --self.dy = -300 * dt
-      redCar:applyLinearImpulse(0, -100)
+      redCar:applyLinearImpulse(0, -150)
       self.timer = self.timer + dt
       if self.timer > .5 then
         count = 2
@@ -99,15 +102,11 @@ function RCar:update(dt)
       --WORK ON THIS
     end
   end
-  if redCar:enter('base') and count == 2 then
+  if redCar.y >= GROUND_RCAR - 5 and count == 2 then
       count = 0
-      entered = 'true'
-  else
-    entered = 'false'
   end
 
 
-    DeltaTime = dt
   --[[
   if self.y < GROUND_RCAR then
     self.dy = self.dy + (GRAVITY * dt)
@@ -172,16 +171,16 @@ ADD COMMENT HERE
     count = 0
   end
 
-
-  self.y = self.y + self.dy
 ]]
+  -- self.y = self.y + self.dy * dt
 end
 
 
 
 
 function RCar:render()
-  love.graphics.printf(tostring(DeltaTime), 0, 500, VIRTUAL_WIDTH, 'center')
+  -- love.graphics.printf(tostring(DeltaTime), 0, 500, VIRTUAL_WIDTH, 'center')
   love.graphics.draw(self.image, self.x, self.y, 0, .5, .5)
   love.graphics.printf('stay = ' .. tostring(entered), 0, 550, VIRTUAL_WIDTH, 'center')
+  love.graphics.printf('stay = ' .. tostring(count), 0, 500, VIRTUAL_WIDTH, 'center')
 end

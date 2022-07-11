@@ -44,62 +44,48 @@ function BCar:hitbox(ball) --Car rectangulare hitbox (16x7)
 end
 ]]
 
-function BCar:hitbox2(ball) -- Hitbox of the Car
-  if(self.x) + (self.width) >= ball.x and self.x <= ball.x + ball.width then
-    if (self.y) + (self.height) >= ball.y and self.y <= ball.y + ball.height then
-      ball.dx = -ball.dx - 5
-      ball.dy = ball.dy - 300
-    end
-  end
-end
 
 function BCar:update(dt)
+  self.x = blueCar.x - (self.width/2)
+  self.y = blueCar.y - (self.height/2)
 
-  if self.y < GROUND_BCAR then
-    self.dy = self.dy + GRAVITY * dt
-  else
-    self.dy = 0
-  end
-
-
-  if love.keyboard.isDown('right') then
-    self.dx = MOVEMENT_SPEED
-    self.x = self.x + self.dx * dt
-  end
-
-  if love.keyboard.isDown('left') then
-    self.dx = -MOVEMENT_SPEED
-    self.x = self.x + self.dx * dt
-  end
-
-
-  if love.keyboard.wasPressed('up') and count == 0 then
-    count = 1
-    self.dy = -2
-  end
-
-  if count == 1 then
-    if love.keyboard.isDown('up') then
-      self.dy = -2
-      self.timer = self.timer + dt
-      if self.timer > .5 then
-        count = 2
-        self.timer = 0
+    --Car moves right if 'd' is pressed
+    if love.keyboard.isDown('right') then
+      --self.dx = MOVEMENT_SPEED * dt
+      blueCar:applyLinearImpulse(100, 0)
+    end
+  
+    --Car moves left if 'a' is pressed
+    if love.keyboard.isDown('left') then
+      --self.dx = -MOVEMENT_SPEED * dt
+      blueCar:applyLinearImpulse(-100, 0)
+    end
+  
+    --upwards jump + long press
+    if love.keyboard.wasPressed('up') and count == 0 then
+      count = 1
+      blueCar:applyLinearImpulse(0, -3000)
+      --self.dy = -300 * dt
+    end
+    if count == 1 then
+      if blueCar.y >= GROUND_RCAR + 3 then
+        count = 0
+      end
+      if love.keyboard.isDown('w') then
+        --self.dy = -300 * dt
+        blueCar:applyLinearImpulse(0, -150)
+        self.timer = self.timer + dt
+        if self.timer > .5 then
+          count = 2
+          self.timer = 0
+        end
+        --WORK ON THIS
       end
     end
-  end
-
-  if self.y < GROUND_RCAR and love.keyboard.wasPressed('down') then
-    self.dy = 1000 * dt
-  end
-
-  if self.y >= GROUND_BCAR then
-    self.y = GROUND_BCAR
-    count = 0
-  end
-
-  self.y = self.y + self.dy
-
+    if blueCar.y >= GROUND_RCAR - 5 and count == 2 then
+        count = 0
+    end
+  
 
 end
 
