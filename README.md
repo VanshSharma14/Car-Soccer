@@ -9,6 +9,6 @@
 
 #### Collab?
 * I have elaborate plans about what I would like to do with this game so I welcome collaborators.
-* I use the LOVE2D game engien and windfield library for the physics of the game.
+* I use the LOVE2D game engine and windfield library for the physics of the game.
 * All art is done by me with the help of a friend.
-* If you would like to collaborate, please shoot me and E-Mail at ||Vansh.business14@gmail.com||
+* If you would like to collaborate, please shoot me and E-Mail at vansh.business14@gmail.com
